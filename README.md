@@ -1,81 +1,81 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | -------- | -------- | -------- |
+| Objetivos Soportados | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
+| -------------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | -------- | -------- | -------- |
 
-# Example: DHT11 Temperature and Humidity Sensor
+# Ejemplo: Sensor de Temperatura y Humedad DHT11
 
-This example demonstrates how to read temperature and humidity data from a DHT11 sensor using ESP32.
+Este ejemplo demuestra cómo leer datos de temperatura y humedad de un sensor DHT11 usando ESP32.
 
-## DHT11 Sensor Overview
+## Descripción del Sensor DHT11
 
-The DHT11 is a basic, low-cost digital temperature and humidity sensor. It uses a single-wire communication protocol.
+El DHT11 es un sensor digital básico y de bajo costo para temperatura y humedad. Utiliza un protocolo de comunicación de un solo cable.
 
-**Specifications:**
-- Temperature: 0-50°C (±2°C accuracy)
-- Humidity: 20-80% RH (±5% RH accuracy)
-- Operating voltage: 3.3V-5V
-- Operating current: 0.3mA (measuring) 60µA (standby)
+**Especificaciones:**
+- Temperatura: 0-50°C (precisión ±2°C)
+- Humedad: 20-80% HR (precisión ±5% HR)
+- Voltaje de operación: 3.3V-5V
+- Corriente de operación: 0.3mA (midiendo) 60µA (en espera)
 
-## Hardware Connections
+## Conexiones de Hardware
 
-| DHT11 Pin | ESP32 Pin | Description |
+| Pin DHT11 | Pin ESP32 | Descripción |
 | --------- | --------- | ----------- |
-| VCC       | 3.3V      | Power supply |
-| GND       | GND       | Ground |
-| Data      | GPIO4     | Data signal (configurable in code) |
+| VCC       | 3.3V      | Alimentación |
+| GND       | GND       | Tierra |
+| Data      | GPI0 15   | Señal de datos (configurable en el código) |
 
-**Important:** Connect a 4.7kΩ-10kΩ pull-up resistor between the data pin and VCC.
+**Importante:** Conecta una resistencia pull-up de 4.7kΩ-10kΩ entre el pin de datos y VCC.
 
-## How it Works
+## Cómo Funciona
 
-1. **Start Signal**: MCU sends start signal by pulling data line low for 18ms, then high for 30µs
-2. **Response Signal**: DHT11 responds by pulling data line low for 80µs, then high for 80µs
-3. **Data Transmission**: DHT11 sends 40 bits of data (humidity + temperature + checksum)
-4. **Data Format**: 
-   - Byte 0: Humidity integer part
-   - Byte 1: Humidity decimal part  
-   - Byte 2: Temperature integer part
-   - Byte 3: Temperature decimal part
-   - Byte 4: Checksum (sum of bytes 0-3)
+1. **Señal de Inicio**: El MCU envía una señal de inicio poniendo la línea de datos en bajo por 18ms, luego en alto por 30µs
+2. **Señal de Respuesta**: El DHT11 responde poniendo la línea de datos en bajo por 80µs, luego en alto por 80µs
+3. **Transmisión de Datos**: El DHT11 envía 40 bits de datos (humedad + temperatura + checksum)
+4. **Formato de Datos**: 
+   - Byte 0: Parte entera de la humedad
+   - Byte 1: Parte decimal de la humedad
+   - Byte 2: Parte entera de la temperatura
+   - Byte 3: Parte decimal de la temperatura
+   - Byte 4: Checksum (suma de los bytes 0-3)
 
-## Configuration
+## Configuración
 
-The DHT11 data pin is configured to use GPIO4 by default. You can change this by modifying the `DHT11_GPIO` define in the code:
+El pin de datos del DHT11 está configurado para usar GPIO4 por defecto. Puedes cambiarlo modificando la definición `DHT11_GPIO` en el código:
 
 ```c
-#define DHT11_GPIO    4  // Change this to your desired GPIO pin
+#define DHT11_GPIO    15 // Cambia esto al GPIO que desees
 ```
 
-## How to use example
+## Cómo usar el ejemplo
 
-Before project configuration and build, be sure to set the correct chip target using `idf.py set-target <chip_name>`.
+Antes de configurar y compilar el proyecto, asegúrate de establecer el chip objetivo correcto usando `idf.py set-target <nombre_del_chip>`.
 
-### Hardware Required
+### Hardware Requerido
 
-* A development board with any Espressif SoC (e.g., ESP32-DevKitC, ESP-WROVER-KIT, etc.)
-* A USB cable for Power supply and programming
-* DHT11 sensor module
-* 4.7kΩ-10kΩ pull-up resistor
-* Jumper wires for connections
+* Una placa de desarrollo con cualquier SoC de Espressif (ej., ESP32-DevKitC, ESP-WROVER-KIT, etc.)
+* Un cable USB para alimentación y programación
+* Módulo sensor DHT11
+* Resistencia pull-up de 4.7kΩ-10kΩ
+* Cables jumper para las conexiones
 
-### Wiring Diagram
+### Diagrama de Conexión
 
 ```
 ESP32          DHT11
 -----          -----
 3.3V    ---    VCC
 GND     ---    GND
-GPIO4   ---    Data (with 4.7kΩ pull-up to VCC)
+GPIO4   ---    Data (con resistencia pull-up de 4.7kΩ a VCC)
 ```
 
-### Build and Flash
+### Compilar y Flashear
 
-Build the project and flash it to the board, then run the monitor tool to view the serial output:
+Compila el proyecto y flashealo a la placa, luego ejecuta la herramienta de monitor para ver la salida serial:
 
-Run `idf.py -p PORT flash monitor` to build, flash and monitor the project.
+Ejecuta `idf.py -p PUERTO flash monitor` para compilar, flashear y monitorear el proyecto.
 
-(To exit the serial monitor, type ``Ctrl-]``.)
+(Para salir del monitor serial, presiona ``Ctrl-]``.)
 
-### Example Output
+### Salida de Ejemplo
 
 ```
 DHT11 Sensor Example
@@ -96,25 +96,25 @@ Minimum free heap size: 290280 bytes
 ✗ Failed to read DHT11 sensor
 ```
 
-## Troubleshooting
+## Solución de Problemas
 
-1. **No response signal**: Check wiring and power supply
-2. **Checksum error**: Interference or timing issues - try moving away from noise sources
-3. **Timeout errors**: Pull-up resistor missing or wrong value
-4. **Inconsistent readings**: Normal for DHT11 - implement averaging for better stability
+1. **Sin señal de respuesta**: Verificar el cableado y la fuente de alimentación
+2. **Error de checksum**: Interferencia o problemas de temporización - intenta alejarte de fuentes de ruido
+3. **Errores de timeout**: Resistencia pull-up faltante o valor incorrecto
+4. **Lecturas inconsistentes**: Normal para el DHT11 - implementa promediado para mejor estabilidad
 
-## Notes
+## Notas
 
-- DHT11 requires at least 1 second between readings
-- This implementation uses busy-waiting for precise timing
-- For production use, consider using a dedicated DHT library with better error handling
-- The sensor may give occasional failed readings - this is normal for DHT11
+- El DHT11 requiere al menos 1 segundo entre lecturas
+- Esta implementación usa espera activa para temporización precisa
+- Para uso en producción, considera usar una librería DHT dedicada con mejor manejo de errores
+- El sensor puede dar lecturas fallidas ocasionales - esto es normal para el DHT11
 
-See the [Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) for full steps to configure and use ESP-IDF to build projects.
+Consulta la [Guía de Inicio](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) para pasos completos sobre cómo configurar y usar ESP-IDF para compilar proyectos.
 
-## Example Output
+## Salida de Ejemplo
 
-As you run the example, you will see the following log:
+Al ejecutar el ejemplo, verás el siguiente log:
 
 ```
 I (317) gpio: GPIO[18]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
@@ -150,6 +150,6 @@ cnt: 10
 ...
 ```
 
-## Troubleshooting
+## Solución de Problemas
 
-For any technical queries, please open an [issue](https://github.com/espressif/esp-idf/issues) on GitHub. We will get back to you soon.
+Para cualquier consulta técnica, por favor abre un [issue](https://github.com/espressif/esp-idf/issues) en GitHub. Te responderemos pronto.
