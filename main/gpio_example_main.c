@@ -8,10 +8,7 @@
 #include "esp_timer.h"
 
 /**
- * Brief:
- * This code shows how to use DHT11 sensor to read temperature and humidity.
- *
- * DHT11 Sensor conexiones en ESP32:
+ *  * DHT11 Sensor conexiones en ESP32:
  * - Data pin connected to GPIO15 este pin puede cambiarse en el código
  * - VCC en salida de 3.3V
  * - GND a GND que es el pin de tierra
