@@ -1,0 +1,2 @@
+source C:/cpp/dht11/generic_gpio/build/bootloader/gdbinit/symbols
+source C:/cpp/dht11/generic_gpio/build/bootloader/gdbinit/connect
